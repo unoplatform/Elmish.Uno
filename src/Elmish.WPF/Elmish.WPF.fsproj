@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net461</TargetFramework>
+    <TargetFramework>netstandard2.0</TargetFramework>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
   <ItemGroup>
@@ -12,12 +12,10 @@
     <Compile Include="ViewModel.fs" />
     <Compile Include="ViewModelUtilities.fs" />
     <Compile Include="Program.fs" />
-    <None Include="paket.references" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="PresentationCore" />
-    <Reference Include="PresentationFramework" />
-    <Reference Include="WindowsBase" />
+    <PackageReference Include="Elmish" Version="2.0.3" />
+    <PackageReference Include="FSharp.Core" Version="4.5.4" />
+    <PackageReference Include="Uno.UI" Version="1.43.0-dev.581" />
   </ItemGroup>
-  <Import Project="..\..\.paket\Paket.Restore.targets" />
 </Project>

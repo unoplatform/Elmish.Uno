@@ -5,7 +5,6 @@ open System.Dynamic
 open System.Collections.Generic
 open System.Collections.ObjectModel
 open System.ComponentModel
-open System.Windows
 open Elmish.WPF
 
 /// Represents all necessary data used in an active binding.

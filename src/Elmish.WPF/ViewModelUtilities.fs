@@ -5,6 +5,8 @@ open System.Windows
 open Elmish
 open Elmish.WPF
 open Elmish.WPF.Internal
+open Windows.UI.Xaml
+open Windows.UI.Core
 
 /// Start Elmish dispatch loop
 let internal startLoop
@@ -25,7 +27,7 @@ let internal startLoop
         vm.UpdateModel model
 
   let uiDispatch (innerDispatch: Dispatch<'msg>) : Dispatch<'msg> =
-    fun msg -> element.Dispatcher.Invoke(fun () -> innerDispatch msg)
+    fun msg -> element.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, fun () -> innerDispatch msg) |> ignore
 
   programRun { program with setState = setState; syncDispatch = uiDispatch }
 

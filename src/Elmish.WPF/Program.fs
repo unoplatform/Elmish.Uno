@@ -1,13 +1,12 @@
 ﻿[<RequireQualifiedAccess>]
 module Elmish.WPF.Program
 
-open System.Windows
 open Elmish.WPF.Utilities
+open Windows.UI.Xaml
 
 /// Start WPF dispatch loop. Blocking function.
 let private startApp window =
-  let app = if isNull Application.Current then Application() else Application.Current
-  app.Run window
+  true
 
 /// Starts both Elmish and WPF dispatch loops. Blocking function.
 let runWindow window program =
