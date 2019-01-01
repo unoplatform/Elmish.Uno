@@ -1,4 +1,4 @@
-﻿namespace Elmish.WPF.Internal
+﻿namespace Elmish.Uno.Internal
 
 
 [<AutoOpen>]

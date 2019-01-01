@@ -1,8 +1,8 @@
-﻿module Elmish.WPF.Samples.SubModel.Program
+﻿module Elmish.Uno.Samples.SubModel.Program
 
 open System
 open Elmish
-open Elmish.WPF
+open Elmish.Uno
 
 
 module Clock =

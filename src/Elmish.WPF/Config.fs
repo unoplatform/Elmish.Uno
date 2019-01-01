@@ -1,4 +1,4 @@
-﻿namespace Elmish.WPF
+﻿namespace Elmish.Uno
 
 type ElmConfig =
   { LogConsole: bool

@@ -8,7 +8,7 @@
     <None Include="paket.references" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Elmish.WPF\Elmish.WPF.fsproj" />
+    <ProjectReference Include="..\Elmish.WPF\Elmish.Uno.fsproj" />
   </ItemGroup>
   <Import Project="..\..\.paket\Paket.Restore.targets" />
 </Project>

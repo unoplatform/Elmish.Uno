@@ -1,9 +1,9 @@
-﻿module Elmish.WPF.Samples.NewWindow.Program
+﻿module Elmish.Uno.Samples.NewWindow.Program
 
 open System
 open System.Windows
 open Elmish
-open Elmish.WPF
+open Elmish.Uno
 
 
 module Win1 =

@@ -1,6 +1,6 @@
-﻿namespace Elmish.WPF
+﻿namespace Elmish.Uno
 
-open Elmish.WPF.Internal
+open Elmish.Uno.Internal
 
 module Binding =
 

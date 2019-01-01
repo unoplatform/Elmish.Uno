@@ -1,6 +1,6 @@
 ﻿using System.Windows.Controls;
 
-namespace Elmish.WPF.Samples.SubModelOpt
+namespace Elmish.Uno.Samples.SubModelOpt
 {
     public partial class Form1 : UserControl
     {

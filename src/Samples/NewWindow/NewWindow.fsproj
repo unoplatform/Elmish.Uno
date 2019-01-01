@@ -9,7 +9,7 @@
     <None Include="paket.references" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Elmish.WPF\Elmish.WPF.fsproj" />
+    <ProjectReference Include="..\..\Elmish.WPF\Elmish.Uno.fsproj" />
     <ProjectReference Include="..\NewWindow.Views\NewWindow.Views.csproj" />
   </ItemGroup>
   <ItemGroup>

@@ -1,8 +1,9 @@
-﻿module Elmish.WPF.Samples.SingleCounter.Program
+﻿module Elmish.Uno.Samples.SingleCounter.Program
 
 open System
 open Elmish
-open Elmish.WPF
+open Elmish.Uno
+open Windows.UI.Xaml
 
 type Model =
   { Count: int
@@ -36,11 +37,10 @@ let bindings model dispatch =
     "Reset" |> Binding.cmdIf (fun _ -> Reset) (fun m -> m <> init ())
   ]
 
-
 [<EntryPoint; STAThread>]
 let main argv =
-  Program.mkSimple init update bindings
-  |> Program.withConsoleTrace
-  |> Program.runWindowWithConfig
+    Program.mkSimple init update bindings
+    |> Program.withConsoleTrace
+    |> Program.startApp
       { ElmConfig.Default with LogConsole = true }
-      (MainWindow())
+      (fun () -> new MainWindow() :> FrameworkElement)

@@ -1,20 +1,23 @@
 ﻿[<RequireQualifiedAccess>]
-module Elmish.WPF.Program
+module Elmish.Uno.Program
 
-open Elmish.WPF.Utilities
+open Elmish.Uno.Utilities
 open Windows.UI.Xaml
 
-/// Start WPF dispatch loop. Blocking function.
-let private startApp window =
-  true
+type App(windowBuilder: unit -> FrameworkElement, initProgram: FrameworkElement -> unit) =
+  inherit Application()
 
-/// Starts both Elmish and WPF dispatch loops. Blocking function.
-let runWindow window program =
-  ViewModel.startLoop ElmConfig.Default window Elmish.Program.run program
-  startApp window
+  override u.OnLaunched activatedArgs =
+    Windows.UI.Xaml.GenericStyles.Initialize()
+    let root = windowBuilder()
+    initProgram(root)
+    Windows.UI.Xaml.Window.Current.Content <- root
 
-/// Starts both Elmish and WPF dispatch loops with the specified configuration.
-/// Blocking function.
-let runWindowWithConfig config window program =
-  ViewModel.startLoop config window Elmish.Program.run program
-  startApp window
+
+let startApp config windowBuilder program =
+  Application.Start(fun _ ->
+    let init = fun root -> ViewModel.startLoop config root Elmish.Program.run program
+    let app = new App(windowBuilder, init)
+    ()
+  )
+  0

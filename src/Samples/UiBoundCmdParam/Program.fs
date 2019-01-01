@@ -1,8 +1,8 @@
-﻿module Elmish.WPF.Samples.UiBoundCmdParam.Program
+﻿module Elmish.Uno.Samples.UiBoundCmdParam.Program
 
 open System
 open Elmish
-open Elmish.WPF
+open Elmish.Uno
 
 
 type Model =

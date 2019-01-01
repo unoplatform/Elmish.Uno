@@ -1,8 +1,8 @@
 ﻿<Window
-    x:Class="Elmish.WPF.Samples.SubModelOpt.MainWindow"
+    x:Class="Elmish.Uno.Samples.SubModelOpt.MainWindow"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="clr-namespace:Elmish.WPF.Samples.SubModelOpt"
+    xmlns:local="clr-namespace:Elmish.Uno.Samples.SubModelOpt"
     Title="Sub-model" Height="350" Width="500"
     WindowStartupLocation="CenterScreen">
   <Window.Resources>

@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace Elmish.WPF.Samples.UiBoundCmdParam
+namespace Elmish.Uno.Samples.UiBoundCmdParam
 {
     public partial class MainWindow : Window
     {

@@ -1,8 +1,8 @@
-﻿module Elmish.WPF.Samples.Validation.Program
+﻿module Elmish.Uno.Samples.Validation.Program
 
 open System
 open Elmish
-open Elmish.WPF
+open Elmish.Uno
 
 
 let requireNotEmpty s =

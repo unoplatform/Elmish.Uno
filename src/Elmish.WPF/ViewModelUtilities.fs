@@ -1,12 +1,13 @@
 ﻿[<RequireQualifiedAccess>]
-module Elmish.WPF.Utilities.ViewModel
+module Elmish.Uno.Utilities.ViewModel
 
 open System.Windows
 open Elmish
-open Elmish.WPF
-open Elmish.WPF.Internal
+open Elmish.Uno
+open Elmish.Uno.Internal
 open Windows.UI.Xaml
 open Windows.UI.Core
+open System
 
 /// Start Elmish dispatch loop
 let internal startLoop
@@ -27,7 +28,11 @@ let internal startLoop
         vm.UpdateModel model
 
   let uiDispatch (innerDispatch: Dispatch<'msg>) : Dispatch<'msg> =
-    fun msg -> element.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, fun () -> innerDispatch msg) |> ignore
+    fun msg ->
+      let doDispatch = fun () ->
+        Console.WriteLine "Dispatch"
+        innerDispatch msg
+      element.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, fun () -> doDispatch()) |> ignore
 
   programRun { program with setState = setState; syncDispatch = uiDispatch }
 

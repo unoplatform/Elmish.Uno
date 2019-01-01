@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace Elmish.WPF.Samples.OneWaySeq
+namespace Elmish.Uno.Samples.OneWaySeq
 {
     public partial class MainWindow : Window
     {

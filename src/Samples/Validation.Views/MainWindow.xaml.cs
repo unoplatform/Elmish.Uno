@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace Elmish.WPF.Samples.Validation
+namespace Elmish.Uno.Samples.Validation
 {
     public partial class MainWindow : Window
     {

@@ -1,11 +1,11 @@
-namespace Elmish.WPF.Internal
+namespace Elmish.Uno.Internal
 
 open System
 open System.Dynamic
 open System.Collections.Generic
 open System.Collections.ObjectModel
 open System.ComponentModel
-open Elmish.WPF
+open Elmish.Uno
 
 /// Represents all necessary data used in an active binding.
 type Binding<'model, 'msg> =

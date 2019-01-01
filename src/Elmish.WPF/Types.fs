@@ -1,4 +1,4 @@
-﻿namespace Elmish.WPF.Internal
+﻿namespace Elmish.Uno.Internal
 
 open System
 open System.Windows.Input

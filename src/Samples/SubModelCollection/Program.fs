@@ -1,8 +1,8 @@
-﻿module Elmish.WPF.Samples.SubModelCollection.Program
+﻿module Elmish.Uno.Samples.SubModelCollection.Program
 
 open System
 open Elmish
-open Elmish.WPF
+open Elmish.Uno
 
 
 /// Returns a list where the item with the specified index is moved up one index

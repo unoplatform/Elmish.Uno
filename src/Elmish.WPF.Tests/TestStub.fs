@@ -1,4 +1,4 @@
-﻿module Elmish.WPF.Tests.TestStub
+﻿module Elmish.Uno.Tests.TestStub
 
 open Xunit
 open Hedgehog

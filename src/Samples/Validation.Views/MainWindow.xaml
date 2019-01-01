@@ -1,5 +1,5 @@
 ﻿<Window
-    x:Class="Elmish.WPF.Samples.Validation.MainWindow"
+    x:Class="Elmish.Uno.Samples.Validation.MainWindow"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     Title="Single counter" Height="300" Width="500"
