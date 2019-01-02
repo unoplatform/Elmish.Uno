@@ -1,8 +1,7 @@
-﻿using System.Windows.Controls;
-
+﻿
 namespace Elmish.Uno.Samples.SubModelOpt
 {
-    public partial class Form1 : UserControl
+    public partial class Form1
     {
         public Form1()
         {

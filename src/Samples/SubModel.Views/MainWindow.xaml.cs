@@ -1,8 +1,7 @@
-﻿using System.Windows;
-
+﻿
 namespace Elmish.Uno.Samples.SubModel
 {
-    public partial class MainWindow : Window
+    public partial class MainWindow
     {
         public MainWindow()
         {

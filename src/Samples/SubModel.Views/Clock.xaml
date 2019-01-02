@@ -3,7 +3,7 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
   <StackPanel Orientation="Horizontal">
-    <TextBlock Text="{Binding Time, StringFormat='Today is {0:MMMM dd, yyyy}. The time is {0:HH:mm:ssK}. It is {0:dddd}.'}" />
+    <TextBlock Text="{Binding Time}" />
     <Button Command="{Binding ToggleUtc}" Content="Toggle UTC" Margin="10,0,0,0" />
   </StackPanel>
 </UserControl>

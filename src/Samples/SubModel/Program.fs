@@ -3,6 +3,7 @@
 open System
 open Elmish
 open Elmish.Uno
+open Windows.UI.Xaml
 
 
 module Clock =
@@ -125,6 +126,6 @@ let main argv =
   Program.mkSimple App.init App.update App.bindings
   |> Program.withSubscription (fun m -> Cmd.ofSub timerTick)
   |> Program.withConsoleTrace
-  |> Program.runWindowWithConfig
+    |> Program.startApp
       { ElmConfig.Default with LogConsole = true }
-      (MainWindow())
+      (fun () -> new MainWindow() :> FrameworkElement)
