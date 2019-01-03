@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFrameworks>netstandard2.0;xamarinios10;MonoAndroid80</TargetFrameworks>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
   <ItemGroup>
@@ -15,7 +15,56 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Elmish" Version="3.0.0-beta-4" />
-    <PackageReference Include="FSharp.Core" Version="4.5.4" />
     <PackageReference Include="Uno.UI" Version="1.43.0-dev.581" />
   </ItemGroup>
+
+  <PropertyGroup Condition="'$(TargetFramework)' == 'xamarinios10'">
+    <TargetFrameworkIdentifier>Xamarin.iOS</TargetFrameworkIdentifier>
+    <TargetFrameworkVersion>v1.0</TargetFrameworkVersion>
+    <NuGetTargetMoniker>Xamarin.iOS,Version=v1.0</NuGetTargetMoniker>
+    <IPhoneResourcePrefix>Resources</IPhoneResourcePrefix>
+    <DefineConstants>$(DefineConstants);</DefineConstants>
+    <LanguageTargets>$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.FSharp.targets</LanguageTargets>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(TargetFramework)' == 'MonoAndroid80'">
+    <TargetFrameworkIdentifier>MonoAndroid</TargetFrameworkIdentifier>
+    <TargetFrameworkVersion>v8.0</TargetFrameworkVersion>
+    <AndroidUseLatestPlatformSdk>False</AndroidUseLatestPlatformSdk>
+    <DebugType>full</DebugType>
+    <DefineConstants>$(DefineConstants);__ANDROID__;XAMARIN;MONOANDROID8_0;XAMARIN_ANDROID</DefineConstants>
+    <LanguageTargets>$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.FSharp.targets</LanguageTargets>
+  </PropertyGroup>
+
+  <ItemGroup Condition=" '$(TargetFramework)' == 'xamarinios10' ">
+    <Reference Include="System" />
+    <Reference Include="System.Runtime" />
+    <Reference Include="System.Collections" />
+    <Reference Include="System.Threading.Tasks" />
+    <Reference Include="System.IdentityModel" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Json" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="Xamarin.iOS" />
+  </ItemGroup>
+  
+  <ItemGroup Condition="'$(TargetFrameworkIdentifier)' == 'MonoAndroid' ">
+    <Reference Include="Mono.Android" />
+    <Reference Include="System" />
+    <Reference Include="System.Collections" />
+    <Reference Include="System.Threading.Tasks" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime" />
+    <Reference Include="System.Json" />
+    <Reference Include="System.Threading.Tasks" />
+    <Reference Include="System.IdentityModel" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Xml" />
+    <AndroidResource Include="$(MSBuildProjectDirectory)\Resources\**\*.xml" />
+  </ItemGroup>
+
 </Project>
