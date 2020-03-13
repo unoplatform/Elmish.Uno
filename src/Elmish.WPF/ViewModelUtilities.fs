@@ -15,12 +15,13 @@ let internal startLoop
     (element: FrameworkElement)
     (programRun: Program<'t, 'model, 'msg, BindingSpec<'model, 'msg> list> -> unit)
     (program: Program<'t, 'model, 'msg, BindingSpec<'model, 'msg> list>) =
+
   let mutable lastModel = None
 
   let setState model dispatch =
     match lastModel with
     | None ->
-        let mapping = program.view model dispatch
+        let mapping = Program.view program model dispatch
         let vm = ViewModel<'model,'msg>(model, dispatch, mapping, config)
         element.DataContext <- box vm
         lastModel <- Some vm
@@ -34,7 +35,10 @@ let internal startLoop
         innerDispatch msg
       element.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, fun () -> doDispatch()) |> ignore
 
-  programRun { program with setState = setState; syncDispatch = uiDispatch }
+  program
+  |> Program.withSetState setState
+  |> Program.withSyncDispatch uiDispatch
+  |> programRun
 
 
 /// Creates a design-time view model using the given model and bindings.

@@ -1,8 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.0;xamarinios10;MonoAndroid80</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0;xamarinios10;MonoAndroid90</TargetFrameworks>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <!--https://github.com/dotnet/fsharp/issues/7363#issuecomment-519270901-->
+    <Deterministic>false</Deterministic>
+    <!--<DebugType>portable</DebugType>-->
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Utils.fs" />
@@ -14,8 +17,9 @@
     <Compile Include="Program.fs" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Elmish" Version="3.0.0-beta-4" />
-    <PackageReference Include="Uno.UI" Version="1.43.0-dev.581" />
+    <PackageReference Include="Elmish" Version="3.0.6" />
+    <PackageReference Include="Uno.Core" Version="1.29.0" />
+    <PackageReference Include="Uno.UI" Version="2.2.0-dev.147" />
   </ItemGroup>
 
   <PropertyGroup Condition="'$(TargetFramework)' == 'xamarinios10'">
@@ -27,12 +31,12 @@
     <LanguageTargets>$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.FSharp.targets</LanguageTargets>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(TargetFramework)' == 'MonoAndroid80'">
+  <PropertyGroup Condition="'$(TargetFramework)' == 'MonoAndroid90'">
     <TargetFrameworkIdentifier>MonoAndroid</TargetFrameworkIdentifier>
-    <TargetFrameworkVersion>v8.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v9.0</TargetFrameworkVersion>
     <AndroidUseLatestPlatformSdk>False</AndroidUseLatestPlatformSdk>
     <DebugType>full</DebugType>
-    <DefineConstants>$(DefineConstants);__ANDROID__;XAMARIN;MONOANDROID8_0;XAMARIN_ANDROID</DefineConstants>
+    <DefineConstants>$(DefineConstants);__ANDROID__;XAMARIN;MONOANDROID9_0;XAMARIN_ANDROID</DefineConstants>
     <LanguageTargets>$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.FSharp.targets</LanguageTargets>
   </PropertyGroup>
 
@@ -49,7 +53,7 @@
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="Xamarin.iOS" />
   </ItemGroup>
-  
+
   <ItemGroup Condition="'$(TargetFrameworkIdentifier)' == 'MonoAndroid' ">
     <Reference Include="Mono.Android" />
     <Reference Include="System" />
