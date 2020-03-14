@@ -14,10 +14,6 @@ type App(windowBuilder: unit -> FrameworkElement, initProgram: FrameworkElement 
     Windows.UI.Xaml.Window.Current.Content <- root
 
 
-let startApp config windowBuilder program =
-  Application.Start(fun _ ->
+let createApp config windowBuilder program =
     let init = fun root -> ViewModel.startLoop config root Elmish.Program.run program
-    let app = new App(windowBuilder, init)
-    ()
-  )
-  0
+    new App(windowBuilder, init)
