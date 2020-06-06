@@ -39,7 +39,8 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{975CF05B-2D8A-4770-AFEE-9E5F2C1372DF}"
 	ProjectSection(SolutionItems) = preProject
 		..\.editorconfig = ..\.editorconfig
-		global.json = global.json
+		..\global.json = ..\global.json
+		..\nuget.config = ..\nuget.config
 	EndProjectSection
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Samples.Shared", "Samples\Samples.Shared\Samples.Shared.shproj", "{6279C845-92F8-4333-AB99-3D213163593C}"

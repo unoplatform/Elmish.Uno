@@ -1,27 +1,47 @@
-﻿<Window
-    x:Class="Elmish.Uno.Samples.UiBoundCmdParam.MainWindow"
+﻿<Page
+    x:Class="Samples.UiBoundCmdParamPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    Title="UI-bound CommandParameter" Height="350" Width="500"
-    WindowStartupLocation="CenterScreen">
-  <StackPanel>
-    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,25,0,0">
-      <Button
-        Command="{Binding Command}"
-        CommandParameter="{Binding SelectedItem, ElementName=List}"
-        Width="210"
-        Margin="0,5,10,5"
-        Padding="5">
-        <TextBlock Text="{Binding Limit, StringFormat='Disabled when selected item is &gt; {0}'}" />
-      </Button>
-      <Slider Value="{Binding Limit}" TickFrequency="1" Maximum="10" Minimum="1" IsSnapToTickEnabled="True" Width="100" Margin="0,5,10,5" />
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="using:Samples"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+    mc:Ignorable="d">
+
+    <StackPanel>
+        <StackPanel
+            Margin="0,25,0,0"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Top"
+            Orientation="Horizontal">
+            <Button
+                Width="210"
+                Margin="0,5,10,5"
+                Padding="5"
+                Command="{Binding Command}"
+                CommandParameter="{Binding SelectedItem, ElementName=List}">
+                <TextBlock>
+                    <Run Text="Disabled when selected item is &gt; " /><Run Text="{Binding Limit}" />
+                </TextBlock>
+            </Button>
+            <Slider
+                Width="100"
+                Margin="0,5,10,5"
+                Maximum="10"
+                Minimum="1"
+                SnapsTo="Ticks"
+                TickFrequency="1"
+                Value="{Binding Limit}" />
+        </StackPanel>
+        <ListView
+            x:Name="List"
+            HorizontalContentAlignment="Center"
+            ItemsSource="{Binding Numbers}">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding .}" />
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ListView>
     </StackPanel>
-    <ListView x:Name="List" ItemsSource="{Binding Numbers}" HorizontalContentAlignment="Center">
-      <ItemsControl.ItemTemplate>
-        <DataTemplate>
-          <TextBlock Text="{Binding .}" />
-        </DataTemplate>
-      </ItemsControl.ItemTemplate>
-    </ListView>
-  </StackPanel>
-</Window>
+</Page>

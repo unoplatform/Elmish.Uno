@@ -1,23 +1,15 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <OutputType>Exe</OutputType>
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
-    <EmbeddedResource Include="WasmScripts\AppManifest.js" />
     <Compile Include="Program.fs" />
-    <None Include="paket.references" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Elmish.WPF\Elmish.Uno.fsproj" />
-    <ProjectReference Include="..\SingleCounter.Views\SingleCounter.Views.csproj" />
+    <ProjectReference Include="..\..\Elmish.Uno\Elmish.Uno.fsproj" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Elmish" Version="3.0.6" />
-    <PackageReference Include="FSharp.Core" Version="4.7.0" />
-    <PackageReference Include="Uno.UI" Version="2.0.532" />
-    <PackageReference Include="Uno.Wasm.Bootstrap" Version="1.0.10" />
+    <PackageReference Include="Uno.UI" Version="2.4.4" />
   </ItemGroup>
-
 </Project>

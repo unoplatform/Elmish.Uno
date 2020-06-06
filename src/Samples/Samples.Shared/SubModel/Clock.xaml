@@ -1,9 +1,19 @@
 ﻿<UserControl
-    x:Class="Elmish.Uno.Samples.SubModel.Clock"
+    x:Class="Samples.SubModel.Clock"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-  <StackPanel Orientation="Horizontal">
-    <TextBlock Text="{Binding Time}" />
-    <Button Command="{Binding ToggleUtc}" Content="Toggle UTC" Margin="10,0,0,0" />
-  </StackPanel>
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="using:Samples.SubModel"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    d:DesignHeight="300"
+    d:DesignWidth="400"
+    mc:Ignorable="d">
+
+    <StackPanel Orientation="Horizontal">
+        <TextBlock Text="{Binding Time}" />
+        <Button
+            Margin="10,0,0,0"
+            Command="{Binding ToggleUtc}"
+            Content="Toggle UTC" />
+    </StackPanel>
 </UserControl>

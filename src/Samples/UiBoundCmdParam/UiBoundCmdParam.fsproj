@@ -1,21 +1,15 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <OutputType>Exe</OutputType>
-    <TargetFramework>net471</TargetFramework>
+    <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Program.fs" />
-    <None Include="paket.references" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Elmish.WPF\Elmish.Uno.fsproj" />
-    <ProjectReference Include="..\UiBoundCmdParam.Views\UiBoundCmdParam.Views.csproj" />
+    <ProjectReference Include="..\..\Elmish.Uno\Elmish.Uno.fsproj" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="PresentationCore" />
-    <Reference Include="PresentationFramework" />
-    <Reference Include="WindowsBase" />
+    <PackageReference Include="Elmish" Version="3.0.6" />
+    <PackageReference Include="Uno.UI" Version="2.4.4" />
   </ItemGroup>
-  <Import Project="..\..\..\.paket\Paket.Restore.targets" />
 </Project>

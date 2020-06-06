@@ -1,19 +1,39 @@
-﻿<Window
-    x:Class="Elmish.Uno.Samples.NewWindow.MainWindow"
+﻿<Page
+    x:Class="Samples.NewWindowPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    Title="Multiple windows" Height="250" Width="300"
-    WindowStartupLocation="CenterScreen">
-  <Window.Resources>
-    <ResourceDictionary>
-      <BooleanToVisibilityConverter x:Key="VisibilityConverter" />
-    </ResourceDictionary>
-  </Window.Resources>
-  <StackPanel VerticalAlignment="Center">
-    <Button Command="{Binding ShowWin1}" Content="Show window 1" Width="200" Margin="0,5,0,5" />
-    <Button Command="{Binding ShowWin2}" Content="Show window 2" Width="200" Margin="0,5,0,5" />
-    <TextBlock Text="{Binding Win1.Text, StringFormat='Window 1 text: {0}'}" />
-    <TextBlock Text="{Binding Win2.Input1, StringFormat='Window 2 input 1: {0}'}" />
-    <TextBlock Text="{Binding Win2.Input2, StringFormat='Window 2 input 2: {0}'}" />
-  </StackPanel>
-</Window>
+    xmlns:converters="using:Microsoft.Toolkit.Uwp.UI.Converters"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="using:Samples"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+    mc:Ignorable="d">
+
+    <Page.Resources>
+        <ResourceDictionary>
+            <converters:BoolToVisibilityConverter x:Key="VisibilityConverter" />
+        </ResourceDictionary>
+    </Page.Resources>
+
+    <StackPanel VerticalAlignment="Center">
+        <Button
+            Width="200"
+            Margin="0,5,0,5"
+            Command="{Binding ShowWin1}"
+            Content="Show window 1" />
+        <Button
+            Width="200"
+            Margin="0,5,0,5"
+            Command="{Binding ShowWin2}"
+            Content="Show window 2" />
+        <TextBlock>
+            <Run Text="Window 1 text: " /><Run Text="{Binding Win1.Text}" />
+        </TextBlock>
+        <TextBlock>
+            <Run Text="Window 2 input 1: " /><Run Text="{Binding Win2.Input1}" />
+        </TextBlock>
+        <TextBlock>
+            <Run Text="Window 2 input 2: " /><Run Text="{Binding Win2.Input2}" />
+        </TextBlock>
+    </StackPanel>
+</Page>
