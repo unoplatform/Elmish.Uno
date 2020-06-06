@@ -72,8 +72,7 @@ namespace Elmish.Uno
             void ProgramRun(Program<Unit, TModel, TDispatch, FSharpList<BindingSpec<TModel, TDispatch>>> p)
               => ProgramModule.run(p);
 
-            void StartLoop(FrameworkElement root) => ViewModel.StartLoop(config, root,
-                FuncConvert.FromAction<Program<Unit, TModel, TDispatch, FSharpList<BindingSpec<TModel, TDispatch>>>>(ProgramRun), program);
+            void StartLoop(FrameworkElement root) => ViewModel.StartLoop(config, root, ProgramRun, program);
 
             return StartLoop;
         }

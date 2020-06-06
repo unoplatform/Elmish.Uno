@@ -104,16 +104,13 @@ namespace Elmish.Uno.Utilities
     [RequireQualifiedAccess, CompilationMapping(SourceConstructFlags.Module)]
     public static class ViewModel
     {
-        // Methods
-        [CompilationArgumentCounts(new int[] { 1, 1 })]
-        public static ViewModel<TModel, TMsg> designInstance<TModel, TMsg>(TModel model, FSharpList<BindingSpec<TModel, TMsg>> bindings)
+        public static ViewModel<TModel, TMsg> DesignInstance<TModel, TMsg>(TModel model, FSharpList<BindingSpec<TModel, TMsg>> bindings)
         {
             var emptyDispatch = FuncConvert.FromAction((TMsg msg) => { });
             return new ViewModel<TModel, TMsg>(model, emptyDispatch, bindings, ElmConfig.Default);
         }
 
-        [CompilationArgumentCounts(new int[] { 1, 1, 1, 1 })]
-        public static void StartLoop<T, TModel, TMsg>(ElmConfig config, FrameworkElement element, FSharpFunc<Program<T, TModel, TMsg, FSharpList<BindingSpec<TModel, TMsg>>>, Unit> programRun, Program<T, TModel, TMsg, FSharpList<BindingSpec<TModel, TMsg>>> program)
+        public static void StartLoop<T, TModel, TMsg>(ElmConfig config, FrameworkElement element, Action<Program<T, TModel, TMsg, FSharpList<BindingSpec<TModel, TMsg>>>> programRun, Program<T, TModel, TMsg, FSharpList<BindingSpec<TModel, TMsg>>> program)
         {
             FSharpRef<FSharpOption<ViewModel<TModel, TMsg>>> lastModel = new FSharpRef<FSharpOption<ViewModel<TModel, TMsg>>>(null);
             FSharpFunc<FSharpFunc<TMsg, Unit>, FSharpFunc<TMsg, Unit>> syncDispatch =

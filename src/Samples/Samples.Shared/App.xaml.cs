@@ -20,11 +20,7 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
-using Microsoft.FSharp.Core;
-using Microsoft.FSharp.Collections;
 using ElmishProgram = Elmish.Uno.Samples.SingleCounter.Program;
-using Model = Elmish.Uno.Samples.SingleCounter.Program.Model;
-using Message = Elmish.Uno.Samples.SingleCounter.Program.Msg;
 using StartupPage = Samples.SingleCounterPage;
 
 namespace Samples
@@ -90,15 +86,7 @@ namespace Samples
                     // configuring the new page by passing required information as a navigation
                     // parameter
                     rootFrame.Navigate(typeof(StartupPage), e.Arguments);
-                    var program =
-                        Elmish.ProgramModule.mkSimple(
-                            FuncConvert.FromFunc(ElmishProgram.init),
-                            FuncConvert.FromFunc<Message, Model, Model>(ElmishProgram.update),
-                            FuncConvert.FromFunc<Model, FSharpFunc<Message, Unit>, FSharpList<BindingSpec<Model, Message>>>((m, d) => ElmishProgram.bindings(m, d)));
-                    var programRun =
-                        FuncConvert.FromAction<
-                            Elmish.Program<Unit, Model, Message, FSharpList<BindingSpec<Model, Message>>>>(Elmish.ProgramModule.run);
-                    ViewModel.StartLoop(ElmConfig.Default, rootFrame.Content as FrameworkElement, programRun, program);
+                    ViewModel.StartLoop(ElmishProgram.Config, rootFrame.Content as FrameworkElement, Elmish.ProgramModule.run, ElmishProgram.Program);
                 }
                 // Ensure the current window is active
                 Windows.UI.Xaml.Window.Current.Activate();
