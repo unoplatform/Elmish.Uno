@@ -20,8 +20,8 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
-using ElmishProgram = Elmish.Uno.Samples.SingleCounter.Program;
-using StartupPage = Samples.SingleCounterPage;
+using ElmishProgram = Elmish.Uno.Samples.SubModel.Program;
+using StartupPage = Samples.SubModelPage;
 
 namespace Samples
 {

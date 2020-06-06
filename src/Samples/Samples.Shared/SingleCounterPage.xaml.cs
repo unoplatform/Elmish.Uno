@@ -23,7 +23,7 @@ namespace Samples
     /// </summary>
     public sealed partial class SingleCounterPage : Page
     {
-        public SimpleCounterPage()
+        public SingleCounterPage()
         {
             this.InitializeComponent();
         }
