@@ -1,4 +1,4 @@
-namespace Elmish.Uno.Internal
+﻿namespace Elmish.Uno.Internal
 
 open System
 open System.Dynamic
@@ -116,13 +116,13 @@ and [<AllowNullLiteral>] ViewModel<'model, 'msg>
         match getModel initialModel with
         | None -> SubModel (ref None, getModel, getBindings, toMsg)
         | Some m ->
-            let vm = ViewModel(m, toMsg >> dispatch, getBindings (), config)
+            let vm = this.Create(m, toMsg >> dispatch, getBindings (), config)
             SubModel (ref <| Some vm, getModel, getBindings, toMsg)
     | SubModelSeqSpec (getModels, getId, getBindings, toMsg) ->
         let vms =
           getModels initialModel
           |> Seq.map (fun m ->
-               ViewModel(m, (fun msg -> toMsg (getId m, msg) |> dispatch), getBindings (), config)
+               this.Create(m, (fun msg -> toMsg (getId m, msg) |> dispatch), getBindings (), config)
           )
           |> ObservableCollection
         SubModelSeq (vms, getModels, getId, getBindings, toMsg)
@@ -264,6 +264,9 @@ and [<AllowNullLiteral>] ViewModel<'model, 'msg>
         | Error err -> setError err name
     | _ -> ()
 
+  abstract Create : initialModel: obj * dispatch: (obj -> unit) * bindingSpecs: BindingSpec<obj, obj> list * config: ElmConfig -> ViewModel<obj, obj>
+  default __.Create (initialModel, dispatch, bindingSpecs, config) =
+    ViewModel(initialModel, dispatch, bindingSpecs, config)
   member __.Bindings = bindings
   member __.Dispatch = dispatch
   member __.CurrentModel : 'model = currentModel

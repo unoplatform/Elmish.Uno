@@ -52,6 +52,11 @@ namespace Elmish.Uno.Utilities
     {
         public ViewModel(TModel initialModel, FSharpFunc<TMsg, Unit> dispatch, FSharpList<BindingSpec<TModel, TMsg>> bindingSpecs, ElmConfig config) : base(initialModel, dispatch, bindingSpecs, config) { }
 
+        public override Internal.ViewModel<object, object> Create(object initialModel, FSharpFunc<object, Unit> dispatch, FSharpList<BindingSpec<object, object>> bindingSpecs, ElmConfig config)
+        {
+            return new ViewModel<object, object>(initialModel, dispatch, bindingSpecs, config);
+        }
+
         private ICustomProperty GetProperty(string name)
         {
             var binding = this.Bindings[name];
