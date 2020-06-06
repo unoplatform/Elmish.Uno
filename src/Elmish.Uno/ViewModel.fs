@@ -140,13 +140,14 @@ and [<AllowNullLiteral>] ViewModel<'model, 'msg>
     | _ -> ()
 
   let bindings =
-    let dict = Dictionary<string, Binding<'model, 'msg>>()
-    for spec in bindingSpecs do
-      log "[VM] Initializing binding %s" spec.Name
-      let binding = initializeBinding spec.Data
-      dict.Add(spec.Name, binding)
-      setInitialError spec.Name binding
-    dict
+    lazy
+      let dict = Dictionary<string, Binding<'model, 'msg>>()
+      for spec in bindingSpecs do
+        log "[VM] Initializing binding %s" spec.Name
+        let binding = initializeBinding spec.Data
+        dict.Add(spec.Name, binding)
+        setInitialError spec.Name binding
+      dict
 
   /// Updates the binding value (for relevant bindings) and returns a value
   /// indicating whether to trigger PropertyChanged for this binding
@@ -267,25 +268,25 @@ and [<AllowNullLiteral>] ViewModel<'model, 'msg>
   abstract Create : initialModel: obj * dispatch: (obj -> unit) * bindingSpecs: BindingSpec<obj, obj> list * config: ElmConfig -> ViewModel<obj, obj>
   default __.Create (initialModel, dispatch, bindingSpecs, config) =
     ViewModel(initialModel, dispatch, bindingSpecs, config)
-  member __.Bindings = bindings
+  member __.Bindings = bindings.Value
   member __.Dispatch = dispatch
   member __.CurrentModel : 'model = currentModel
 
-  member __.UpdateModel (newModel: 'model) : unit =
+  member this.UpdateModel (newModel: 'model) : unit =
     log "[VM] UpdateModel %s" <| newModel.GetType().FullName
     let propsToNotify =
-      bindings
+      this.Bindings
       |> Seq.toList
       |> List.filter (Kvp.value >> updateValue newModel)
       |> List.map Kvp.key
     let cmdsToNotify =
-      bindings
+      this.Bindings
       |> Seq.toList
       |> List.choose (Kvp.value >> getCmdIfCanExecChanged newModel)
     currentModel <- newModel
     propsToNotify |> List.iter notifyPropertyChanged
     cmdsToNotify |> List.iter raiseCanExecuteChanged
-    for Kvp (name, binding) in bindings do
+    for Kvp (name, binding) in this.Bindings do
       updateValidationStatus name binding
 
   member __.GetMember (binding) =
@@ -308,7 +309,7 @@ and [<AllowNullLiteral>] ViewModel<'model, 'msg>
 
   override this.TryGetMember (binder, result) =
     log "[VM] TryGetMember %s" binder.Name
-    match bindings.TryGetValue binder.Name with
+    match this.Bindings.TryGetValue binder.Name with
     | false, _ ->
         log "[VM] TryGetMember FAILED: Property %s doesn't exist" binder.Name
         false
@@ -339,7 +340,7 @@ and [<AllowNullLiteral>] ViewModel<'model, 'msg>
 
   override this.TrySetMember (binder, value) =
     log "[VM] TrySetMember %s" binder.Name
-    match bindings.TryGetValue binder.Name with
+    match this.Bindings.TryGetValue binder.Name with
     | false, _ -> log "[VM] TrySetMember FAILED: Property %s doesn't exist" binder.Name
     | true, binding ->
         this.SetMember (binder.Name, binding, value)
