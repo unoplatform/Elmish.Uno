@@ -1,0 +1,20 @@
+﻿<Project Sdk="MSBuild.Sdk.Extras" ToolsVersion="15.0">
+  <PropertyGroup>
+    <TargetFrameworks>xamarinmac20;MonoAndroid10.0;xamarinios10;net461;netstandard2.0</TargetFrameworks>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <!--https://github.com/dotnet/fsharp/issues/7363#issuecomment-519270901-->
+    <Deterministic>false</Deterministic>
+    <!--<DebugType>portable</DebugType>-->
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="ViewModelUtilities.fs" />
+    <Compile Include="Program.fs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Elmish.Uno\Elmish.Uno.fsproj" />
+    <PackageReference Include="Elmish" Version="3.0.6" />
+    <PackageReference Include="Uno.Core" Version="1.29.0" />
+    <PackageReference Include="Uno.UI" Version="2.2.0-dev.147" />
+    <PackageReference Update="FSharp.Core" Version="4.7.2" />
+  </ItemGroup>
+</Project>

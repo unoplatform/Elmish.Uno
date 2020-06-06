@@ -264,6 +264,8 @@ and [<AllowNullLiteral>] ViewModel<'model, 'msg>
         | Error err -> setError err name
     | _ -> ()
 
+  member __.Bindings = bindings
+  member __.Dispatch = dispatch
   member __.CurrentModel : 'model = currentModel
 
   member __.UpdateModel (newModel: 'model) : unit =
@@ -283,56 +285,61 @@ and [<AllowNullLiteral>] ViewModel<'model, 'msg>
     for Kvp (name, binding) in bindings do
       updateValidationStatus name binding
 
-  override __.TryGetMember (binder, result) =
+  member __.GetMember (binding) =
+    match binding with
+    | OneWay get
+    | TwoWay (get, _)
+    | TwoWayValidate (get, _, _)
+    | TwoWayIfValid (get, _) ->
+        get currentModel
+    | OneWayLazy (value, _, _, _) ->
+        (!value).Value
+    | OneWaySeq (vals, _, _, _, _, _) ->
+        box vals
+    | Cmd (cmd, _)
+    | CmdIfValid (cmd, _)
+    | ParamCmd cmd ->
+        box cmd
+    | SubModel (vm, _, _, _) -> !vm |> Option.toObj |> box
+    | SubModelSeq (vms, _, _, _, _) -> box vms
+
+  override this.TryGetMember (binder, result) =
     log "[VM] TryGetMember %s" binder.Name
     match bindings.TryGetValue binder.Name with
     | false, _ ->
         log "[VM] TryGetMember FAILED: Property %s doesn't exist" binder.Name
         false
     | true, binding ->
-        result <-
-          match binding with
-          | OneWay get
-          | TwoWay (get, _)
-          | TwoWayValidate (get, _, _)
-          | TwoWayIfValid (get, _) ->
-              get currentModel
-          | OneWayLazy (value, _, _, _) ->
-              (!value).Value
-          | OneWaySeq (vals, _, _, _, _, _) ->
-              box vals
-          | Cmd (cmd, _)
-          | CmdIfValid (cmd, _)
-          | ParamCmd cmd ->
-              box cmd
-          | SubModel (vm, _, _, _) -> !vm |> Option.toObj |> box
-          | SubModelSeq (vms, _, _, _, _) -> box vms
+        result <- this.GetMember binding
         true
 
-  override __.TrySetMember (binder, value) =
+  member __.SetMember (name, binding, value) =
+    match binding with
+    | TwoWay (_, set)
+    | TwoWayValidate (_, set, _) ->
+        dispatch <| set value currentModel
+    | TwoWayIfValid (_, set) ->
+        match set value currentModel with
+        | Ok msg ->
+            removeError name
+            dispatch msg
+        | Error err -> setError err name
+    | OneWay _
+    | OneWayLazy _
+    | OneWaySeq _
+    | Cmd _
+    | CmdIfValid _
+    | ParamCmd _
+    | SubModel _
+    | SubModelSeq _ ->
+        log "[VM] TrySetMember FAILED: Binding %s is read-only" name
+
+  override this.TrySetMember (binder, value) =
     log "[VM] TrySetMember %s" binder.Name
     match bindings.TryGetValue binder.Name with
     | false, _ -> log "[VM] TrySetMember FAILED: Property %s doesn't exist" binder.Name
     | true, binding ->
-        match binding with
-        | TwoWay (_, set)
-        | TwoWayValidate (_, set, _) ->
-            dispatch <| set value currentModel
-        | TwoWayIfValid (_, set) ->
-            match set value currentModel with
-            | Ok msg ->
-                removeError binder.Name
-                dispatch msg
-            | Error err -> setError err binder.Name
-        | OneWay _
-        | OneWayLazy _
-        | OneWaySeq _
-        | Cmd _
-        | CmdIfValid _
-        | ParamCmd _
-        | SubModel _
-        | SubModelSeq _ ->
-            log "[VM] TrySetMember FAILED: Binding %s is read-only" binder.Name
+        this.SetMember (binder.Name, binding, value)
     // This function should always return false, otherwise the UI may execute a
     // subsequent get which may may return the old value
     false

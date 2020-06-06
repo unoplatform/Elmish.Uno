@@ -10,7 +10,7 @@ open Windows.UI.Core
 open System
 
 /// Start Elmish dispatch loop
-let internal startLoop
+let startLoop
     (config: ElmConfig)
     (element: FrameworkElement)
     (programRun: Program<'t, 'model, 'msg, BindingSpec<'model, 'msg> list> -> unit)
