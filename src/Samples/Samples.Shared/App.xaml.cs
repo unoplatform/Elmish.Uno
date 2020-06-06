@@ -59,6 +59,9 @@ namespace Samples
                 // this.DebugSettings.EnableFrameRateCounter = true;
             }
 #endif
+#if NETFX_CORE
+            Resources.MergedDictionaries.Add(new Microsoft.UI.Xaml.Controls.XamlControlsResources());
+#endif
             Frame rootFrame = Windows.UI.Xaml.Window.Current.Content as Frame;
 
             // Do not repeat app initialization when the Window already has content,
