@@ -46,8 +46,9 @@ let StartLoop (config, element, programRun : Action<Program<'t, 'model, 'msg, Bi
 
 
 /// Creates a design-time view model using the given model and bindings.
-let designInstance (model: 'model) (bindings: BindingSpec<'model, 'msg> list) =
-    ViewModel(model, ignore, bindings, ElmConfig.Default)
+let designInstance (model: 'model) (program: Program<'t, 'model, 'msg, BindingSpec<'model, 'msg> list>) =
+    let mapping = Program.view program model ignore
+    ViewModel(model, ignore, mapping, ElmConfig.Default)
 
-let DesignInstance (model: 'model, bindings: BindingSpec<'model, 'msg> list) =
-    ViewModel(model, ignore, bindings, ElmConfig.Default)
+let DesignInstance (model: 'model, program: Program<'t, 'model, 'msg, BindingSpec<'model, 'msg> list>) =
+    designInstance model program

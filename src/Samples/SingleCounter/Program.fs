@@ -32,7 +32,7 @@ let bindings model dispatch = [
     "StepSize" |> Binding.twoWay (fun m -> float m.StepSize)
                                  (fun v m -> int v |> SetStepSize)
     "Reset" |> Binding.cmdIf (fun _ -> Reset) (fun m -> m <> init ())
-  ]
+]
 
 [<CompiledName("Program")>]
 let program =

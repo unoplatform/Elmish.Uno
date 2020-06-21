@@ -3,6 +3,11 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using Elmish.Uno.Utilities;
+
+using Microsoft.FSharp.Core;
+
+using Samples.NewWindow;
 
 using Windows.Foundation;
 using Windows.Foundation.Collections;
@@ -14,7 +19,7 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
-// The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
+using ElmishProgram = Elmish.Uno.Samples.NewWindow.Program;
 
 namespace Samples
 {
@@ -26,6 +31,8 @@ namespace Samples
         public NewWindowPage()
         {
             this.InitializeComponent();
+            var program = ElmishProgram.CreateProgram<Window1Page, Window2Page>(FuncConvert.FromFunc(() => this.DataContext));
+            ViewModel.StartLoop(ElmishProgram.Config, this, Elmish.ProgramModule.run, program);
         }
     }
 }

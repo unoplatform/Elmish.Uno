@@ -4,6 +4,11 @@ open System
 open System.Windows
 open Elmish
 open Elmish.Uno
+open Windows.ApplicationModel.Core
+open Windows.UI.Core
+open Windows.UI.ViewManagement
+open Windows.UI.Xaml
+open Windows.UI.Xaml.Controls
 
 module Win1 =
 
@@ -47,62 +52,60 @@ module Win2 =
     ]
 
 
-module App =
+type Model =
+    { Win1: Win1.Model
+      Win2: Win2.Model }
 
-    type Model =
-        { Win1: Win1.Model
-          Win2: Win2.Model }
+let init () =
+    { Win1 = Win1.init
+      Win2 = Win2.init },
+    Cmd.none
 
-    let init () =
-        { Win1 = Win1.init
-          Win2 = Win2.init },
-        Cmd.none
+type Msg =
+| ShowWin1
+| ShowWin2
+| Win1Msg of Win1.Msg
+| Win2Msg of Win2.Msg
 
-    type Msg =
-    | ShowWin1
-    | ShowWin2
-    | Win1Msg of Win1.Msg
-    | Win2Msg of Win2.Msg
+let showWindow windowTitle pageType viewModel = async {
+    let view = CoreApplication.CreateNewView()
+    do! view.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, fun () ->
+        let window = CoreWindow.GetForCurrentThread ()
+        let view = ApplicationView.GetForCurrentView ()
+        view.Title <- windowTitle
 
-    let showWin1 () =
-        Application.Current.Dispatcher.Invoke(fun () ->
-            let win1 = Window1()
-            win1.DataContext <- Application.Current.MainWindow.DataContext
-            win1.Show()
-        )
+        let frame = new Frame()
+        frame.DataContext <- viewModel
+        frame.Navigate(pageType) |> ignore
+        Window.Current.Content <- frame
+        Window.Current.Activate()
+        ).AsTask()
+}
 
-    let showWin2 () =
-        Application.Current.Dispatcher.Invoke(fun () ->
-            let win2 = Window2()
-            win2.DataContext <- Application.Current.MainWindow.DataContext
-            win2.Show()
-        )
+let update window1PageType window2pageType getViewModel msg m =
+    match msg with
+    | ShowWin1 -> m, Cmd.OfAsync.attempt (showWindow "Window 1" window1PageType) (getViewModel ()) raise
+    | ShowWin2 -> m, Cmd.OfAsync.attempt (showWindow "Window 2" window2pageType) (getViewModel ()) raise
+    | Win1Msg msg' -> { m with Win1 = Win1.update msg' m.Win1 }, Cmd.none
+    | Win2Msg msg' -> { m with Win2 = Win2.update msg' m.Win2 }, Cmd.none
 
-    let update msg m =
-        match msg with
-        | ShowWin1 -> m, Cmd.attemptFunc showWin1 () raise
-        | ShowWin2 -> m, Cmd.attemptFunc showWin2 () raise
-        | Win1Msg msg' -> { m with Win1 = Win1.update msg' m.Win1 }, Cmd.none
-        | Win2Msg msg' -> { m with Win2 = Win2.update msg' m.Win2 }, Cmd.none
+let bindings model dispatch = [
+    "ShowWin1" |> Binding.cmd (fun m -> ShowWin1)
+    "ShowWin2" |> Binding.cmd (fun m -> ShowWin2)
+    "Win1" |> Binding.subModel
+        (fun m -> m.Win1)
+        Win1.bindings
+        Win1Msg
+    "Win2" |> Binding.subModel
+        (fun m -> m.Win2)
+        Win2.bindings
+        Win2Msg
+]
 
-    let bindings model dispatch = [
-        "ShowWin1" |> Binding.cmd (fun m -> ShowWin1)
-        "ShowWin2" |> Binding.cmd (fun m -> ShowWin2)
-        "Win1" |> Binding.subModel
-            (fun m -> m.Win1)
-            Win1.bindings
-            Win1Msg
-        "Win2" |> Binding.subModel
-            (fun m -> m.Win2)
-            Win2.bindings
-            Win2Msg
-    ]
+[<CompiledName("CreateProgram")>]
+let createProgram<'win1, 'win2> getViewModel =
+    Program.mkProgram init (update typeof<'win1> typeof<'win2> getViewModel) bindings
+    |> Program.withConsoleTrace
 
-
-[<EntryPoint; STAThread>]
-let main argv =
-  Program.mkProgram App.init App.update App.bindings
-  |> Program.withConsoleTrace
-  |> Program.runWindowWithConfig
-      { ElmConfig.Default with LogConsole = true }
-      (MainWindow())
+[<CompiledName("Config")>]
+let config = { ElmConfig.Default with LogConsole = true }

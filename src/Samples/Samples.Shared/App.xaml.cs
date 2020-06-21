@@ -20,8 +20,7 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
-using ElmishProgram = Elmish.Uno.Samples.SubModel.Program;
-using StartupPage = Samples.SubModelPage;
+using StartupPage = Samples.NewWindowPage;
 
 namespace Samples
 {
@@ -86,7 +85,6 @@ namespace Samples
                     // configuring the new page by passing required information as a navigation
                     // parameter
                     rootFrame.Navigate(typeof(StartupPage), e.Arguments);
-                    ViewModel.StartLoop(ElmishProgram.Config, rootFrame.Content as FrameworkElement, Elmish.ProgramModule.run, ElmishProgram.Program);
                 }
                 // Ensure the current window is active
                 Windows.UI.Xaml.Window.Current.Activate();
