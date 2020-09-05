@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">iPhoneSimulator</Platform>
-    <ProjectGuid>{89818C3A-D175-4CA0-B389-BBC699FD5366}</ProjectGuid>
+    <ProjectGuid>{CABFE678-8BBD-4203-8EE3-ADC2B9577CB0}</ProjectGuid>
     <ProjectTypeGuids>{A3F8F2AB-B479-4A4A-A458-A89E7DC349F1};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <OutputType>Exe</OutputType>
     <RootNamespace>Samples.macOS</RootNamespace>
@@ -75,18 +75,12 @@
     <PackageReference Include="FSharp.Core">
       <Version>4.7.2</Version>
     </PackageReference>
-    <PackageReference Include="Microsoft.UI.Xaml">
-      <Version>2.4.3</Version>
-    </PackageReference>
     <PackageReference Include="Uno.Microsoft.Toolkit.Uwp.UI">
-      <Version>6.1.0-build.71.g38c59ea2a0</Version>
-    </PackageReference>
-    <PackageReference Include="Uno.Microsoft.Toolkit.Uwp.UI.Controls">
-      <Version>6.1.0-build.71.g38c59ea2a0</Version>
+      <Version>6.1.0-build.191.gc988bdd4ff</Version>
     </PackageReference>
     <PackageReference Include="Uno.UI" Version="3.0.12" />
     <PackageReference Include="Uno.UI.RemoteControl" Version="3.0.12" Condition="'$(Configuration)'=='Debug'" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="1.1.1" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="1.1.2" />
     <PackageReference Include="Microsoft.Extensions.Logging.Filter" Version="1.1.2" />
   </ItemGroup>
   <Import Project="..\Samples.Shared\Samples.Shared.projitems" Label="Shared" Condition="Exists('..\Samples.Shared\Samples.Shared.projitems')" />
@@ -115,7 +109,7 @@
     <Compile Include="Main.cs" />
   </ItemGroup>
   <ItemGroup>
-    <BundleResource Include="Resources\Fonts\winjs-symbols.ttf">
+    <BundleResource Include="Resources\Fonts\uno-fluentui-assets.ttf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </BundleResource>
   </ItemGroup>
@@ -164,11 +158,11 @@
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Mac\Xamarin.Mac.CSharp.targets" />
   <Target Name="VS16Mac_RemoveSystemMemory" BeforeTargets="ResolveAssemblyReferences">
     <!--
-        VS4Mac seems to process System.Memory differently, and removes
-        the System.Memory local reference if the package is transitively referenced.
-        We remove the Reference added by the nuget targets so that ResolveAssemblyReferences
-        is properly adding the local System.Memory to the Reference item group.
-    -->
+				VS4Mac seems to process System.Memory differently, and removes
+				the System.Memory local reference if the package is transitively referenced.
+				We remove the Reference added by the nuget targets so that ResolveAssemblyReferences
+				is properly adding the local System.Memory to the Reference item group.
+		-->
     <ItemGroup>
       <_ReferenceToRemove Include="@(Reference)" Condition="'%(Reference.Identity)'=='System.Memory'" />
       <Reference Remove="@(_ReferenceToRemove)" />

@@ -12,17 +12,17 @@
       -->
       <Version>6.2.9</Version>
     </PackageReference>
-    <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="1.1.1" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Filter" Version="1.1.2" />
+    <PackageReference Include="Microsoft.Toolkit.Uwp.UI" Version="6.1.1" />
     <PackageReference Include="Microsoft.UI.Xaml" Version="2.4.3" />
     <PackageReference Include="Uno.Core" Version="2.0.0" />
-    <PackageReference Include="Uno.Microsoft.Toolkit.Uwp.UI" Version="6.1.0-build.71.g38c59ea2a0" />
-    <PackageReference Include="Uno.Microsoft.Toolkit.Uwp.UI.Controls" Version="6.1.0-build.71.g38c59ea2a0" />
+    <PackageReference Include="Uno.UI" Version="3.0.12" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="1.1.2" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Filter" Version="1.1.2" />
   </ItemGroup>
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
-    <ProjectGuid>{5B1A9D61-2079-4880-99B4-EF87AF53C9B5}</ProjectGuid>
+    <ProjectGuid>{83C54679-6323-482D-8C3F-AAC2ABF937D7}</ProjectGuid>
     <OutputType>AppContainerExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Samples</RootNamespace>
