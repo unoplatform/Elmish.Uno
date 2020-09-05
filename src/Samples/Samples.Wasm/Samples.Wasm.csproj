@@ -10,6 +10,7 @@
     <DefineConstants>$(DefineConstants);TRACE;DEBUG</DefineConstants>
     <DebugType>portable</DebugType>
     <DebugSymbols>true</DebugSymbols>
+    <WasmShellILLinkerEnabled>False</WasmShellILLinkerEnabled>
   </PropertyGroup>
   <ItemGroup>
     <Content Include="Assets\SplashScreen.png" />
