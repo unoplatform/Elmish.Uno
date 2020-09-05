@@ -10,11 +10,15 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Uno.UI" Version="2.4.4" />
+    <PackageReference Include="Uno.UI" Version="3.0.12" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Elmish.Uno\Elmish.Uno.fsproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Update="FSharp.Core" Version="4.7.2" />
   </ItemGroup>
 
 </Project>
