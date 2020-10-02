@@ -3,7 +3,6 @@
 open System
 open Elmish
 open Elmish.Uno
-open Windows.UI.Xaml
 
 module Clock =
 

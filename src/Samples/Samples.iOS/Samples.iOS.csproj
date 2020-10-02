@@ -9,6 +9,7 @@
     <RootNamespace>Samples</RootNamespace>
     <IPhoneResourcePrefix>Resources</IPhoneResourcePrefix>
     <AssemblyName>Samples</AssemblyName>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
     <ResourcesDirectory>..\Samples.Shared\Strings</ResourcesDirectory>
@@ -128,6 +129,9 @@
     <PackageReference Include="Uno.UI.RemoteControl" Version="3.0.17" Condition="'$(Configuration)'=='Debug'" />
     <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="1.1.2" />
     <PackageReference Include="Microsoft.Extensions.Logging.Filter" Version="1.1.2" />
+    <PackageReference Include="Uno.WindowsStateTriggers">
+      <Version>1.1.1-uno.132</Version>
+    </PackageReference>
   </ItemGroup>
   <ItemGroup>
     <ImageAsset Include="Media.xcassets\AppIcons.appiconset\Contents.json">
@@ -167,37 +171,9 @@
       <Project>{8c6e8d34-7205-4c57-9722-87e30e4fc5ce}</Project>
       <Name>Elmish.Uno</Name>
     </ProjectReference>
-    <ProjectReference Include="..\NewWindow\NewWindow.fsproj">
-      <Project>{9d01d459-4eaa-446e-bc2e-f5f66d29833a}</Project>
-      <Name>NewWindow</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\OneWaySeq\OneWaySeq.fsproj">
-      <Project>{e97a831b-0525-4248-8143-4e1114612071}</Project>
-      <Name>OneWaySeq</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SingleCounter\SingleCounter.fsproj">
-      <Project>{aaad1890-05a8-4d6f-8b1f-6b93140c8011}</Project>
-      <Name>SingleCounter</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SubModelCollection\SubModelCollection.fsproj">
-      <Project>{f6261a48-3ef9-452b-98ad-15f5cd94b5e5}</Project>
-      <Name>SubModelCollection</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SubModelOpt\SubModelOpt.fsproj">
-      <Project>{47ade238-c32b-4f19-9028-68eb8e09927c}</Project>
-      <Name>SubModelOpt</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SubModel\SubModel.fsproj">
-      <Project>{ea0640d2-d64b-4ae6-8876-5e33c53bd50e}</Project>
-      <Name>SubModel</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\UiBoundCmdParam\UiBoundCmdParam.fsproj">
-      <Project>{9581a1de-70a6-4ac2-af65-fd6e95f3a983}</Project>
-      <Name>UiBoundCmdParam</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Validation\Validation.fsproj">
-      <Project>{69ded389-b4bb-4295-926d-1dffb8995628}</Project>
-      <Name>Validation</Name>
+    <ProjectReference Include="..\Samples\Samples.fsproj">
+      <Project>{7d5fb72d-fd5f-4247-a5fc-8cc989471b6a}</Project>
+      <Name>Samples</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="..\Samples.Shared\Samples.Shared.projitems" Label="Shared" Condition="Exists('..\Samples.Shared\Samples.Shared.projitems')" />

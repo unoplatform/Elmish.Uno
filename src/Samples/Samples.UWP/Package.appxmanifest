@@ -29,7 +29,7 @@
 
   <Applications>
     <Application Id="App"
-      Executable="Samples.exe"
+      Executable="$targetnametoken$.exe"
       EntryPoint="Samples.App">
       <uap:VisualElements
         DisplayName="Samples"

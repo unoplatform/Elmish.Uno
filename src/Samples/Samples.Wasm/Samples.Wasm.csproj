@@ -47,18 +47,12 @@
     <PackageReference Include="Uno.UI.RemoteControl" Version="3.0.17" Condition="'$(Configuration)'=='Debug'" />
     <PackageReference Include="Uno.Wasm.Bootstrap" Version="1.3.4" />
     <PackageReference Include="Uno.Wasm.Bootstrap.DevServer" Version="1.3.4" />
+    <PackageReference Include="Uno.WindowsStateTriggers" Version="1.1.1-uno.132" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Elmish.Uno.Mobile\Elmish.Uno.Mobile.fsproj" />
     <ProjectReference Include="..\..\Elmish.Uno\Elmish.Uno.fsproj" />
-    <ProjectReference Include="..\NewWindow\NewWindow.fsproj" />
-    <ProjectReference Include="..\OneWaySeq\OneWaySeq.fsproj" />
-    <ProjectReference Include="..\SingleCounter\SingleCounter.fsproj" />
-    <ProjectReference Include="..\SubModelCollection\SubModelCollection.fsproj" />
-    <ProjectReference Include="..\SubModelOpt\SubModelOpt.fsproj" />
-    <ProjectReference Include="..\SubModel\SubModel.fsproj" />
-    <ProjectReference Include="..\UiBoundCmdParam\UiBoundCmdParam.fsproj" />
-    <ProjectReference Include="..\Validation\Validation.fsproj" />
+    <ProjectReference Include="..\Samples\Samples.fsproj" />
   </ItemGroup>
   <Import Project="..\Samples.Shared\Samples.Shared.projitems" Label="Shared" Condition="Exists('..\Samples.Shared\Samples.Shared.projitems')" />
 </Project>

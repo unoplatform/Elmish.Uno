@@ -20,7 +20,7 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
-using StartupPage = Samples.NewWindowPage;
+using StartupPage = Samples.OneWaySeqPage;
 
 namespace Samples
 {
