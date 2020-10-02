@@ -1,28 +1,27 @@
 ﻿<UserControl
-    x:Class="Samples.SubModelOpt.Form1"
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:local="using:Samples.SubModelOpt"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    Padding="10"
-    d:DesignHeight="300"
-    d:DesignWidth="400"
-    mc:Ignorable="d">
+  x:Class="Samples.SubModelOpt.Form1"
+  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+  Padding="10"
+  d:DesignHeight="300"
+  d:DesignWidth="400"
+  mc:Ignorable="d">
 
-    <StackPanel Width="300">
-        <TextBlock
-            Margin="0,0,0,5"
-            HorizontalAlignment="Center"
-            FontSize="18"
-            FontWeight="Bold"
-            Text="Form 1" />
-        <TextBox
-            Height="80"
-            Margin="0,5,0,5"
-            AcceptsReturn="True"
-            Text="{Binding Text, UpdateSourceTrigger=PropertyChanged}"
-            TextWrapping="Wrap" />
-        <Button Command="{Binding Submit}" Content="Submit" />
-    </StackPanel>
+  <StackPanel Width="300">
+    <TextBlock
+      Margin="0,0,0,5"
+      HorizontalAlignment="Center"
+      FontSize="18"
+      FontWeight="Bold"
+      Text="Form 1" />
+    <TextBox
+      Height="80"
+      Margin="0,5,0,5"
+      AcceptsReturn="True"
+      Text="{Binding Text, UpdateSourceTrigger=PropertyChanged}"
+      TextWrapping="Wrap" />
+    <Button Command="{Binding Submit}" Content="Submit" />
+  </StackPanel>
 </UserControl>

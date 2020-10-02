@@ -1,51 +1,51 @@
 ﻿<UserControl
-    x:Class="Samples.SubModel.CounterWithClock"
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:local="using:Samples.SubModel"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    d:DesignHeight="300"
-    d:DesignWidth="400"
-    mc:Ignorable="d">
+  x:Class="Samples.SubModel.CounterWithClock"
+  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+  xmlns:sm="using:Samples.SubModel"
+  d:DesignHeight="300"
+  d:DesignWidth="400"
+  mc:Ignorable="d">
 
-    <StackPanel>
-        <StackPanel
-            HorizontalAlignment="Center"
-            VerticalAlignment="Top"
-            Orientation="Horizontal">
-            <TextBlock Margin="0,5,10,5">
-                <Run Text="Counter value: " />
-                <Run Text="{Binding CounterValue}" />
-            </TextBlock>
-            <Button
-                Width="30"
-                Margin="0,5,10,5"
-                Command="{Binding Decrement}"
-                Content="-" />
-            <Button
-                Width="30"
-                Margin="0,5,10,5"
-                Command="{Binding Increment}"
-                Content="+" />
-            <TextBlock Margin="0,5,10,5">
-                <Run Text="Step size: " />
-                <Run Text="{Binding StepSize}" />
-            </TextBlock>
-            <Slider
-                Width="100"
-                Margin="0,5,10,5"
-                Maximum="10"
-                Minimum="1"
-                SnapsTo="Ticks"
-                TickFrequency="1"
-                Value="{Binding StepSize, Mode=TwoWay}" />
-            <Button
-                Width="50"
-                Margin="0,5,10,5"
-                Command="{Binding Reset}"
-                Content="Reset" />
-        </StackPanel>
-        <local:Clock HorizontalAlignment="Center" DataContext="{Binding Clock}" />
+  <StackPanel>
+    <StackPanel
+      HorizontalAlignment="Center"
+      VerticalAlignment="Top"
+      Orientation="Horizontal">
+      <TextBlock Margin="0,5,10,5">
+        <Run Text="Counter value: " />
+        <Run Text="{Binding CounterValue}" />
+      </TextBlock>
+      <Button
+        Width="30"
+        Margin="0,5,10,5"
+        Command="{Binding Decrement}"
+        Content="-" />
+      <Button
+        Width="30"
+        Margin="0,5,10,5"
+        Command="{Binding Increment}"
+        Content="+" />
+      <TextBlock Margin="0,5,10,5">
+        <Run Text="Step size: " />
+        <Run Text="{Binding StepSize}" />
+      </TextBlock>
+      <Slider
+        Width="100"
+        Margin="0,5,10,5"
+        Maximum="10"
+        Minimum="1"
+        SnapsTo="Ticks"
+        TickFrequency="1"
+        Value="{Binding StepSize, Mode=TwoWay}" />
+      <Button
+        Width="50"
+        Margin="0,5,10,5"
+        Command="{Binding Reset}"
+        Content="Reset" />
     </StackPanel>
+    <sm:Clock HorizontalAlignment="Center" DataContext="{Binding Clock}" />
+  </StackPanel>
 </UserControl>

@@ -1,41 +1,41 @@
 ﻿<Page
-    x:Class="Samples.SubModelOptPage"
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:local="using:Samples.SubModelOpt"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    x:Name="page"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
-    mc:Ignorable="d">
+  x:Class="Samples.SubModelOptPage"
+  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+  xmlns:smo="using:Samples.SubModelOpt"
+  x:Name="page"
+  Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+  mc:Ignorable="d">
 
-    <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-        <StackPanel Margin="0,15,0,0">
-            <Button
-                Width="200"
-                Margin="0,5,0,5"
-                Command="{Binding ShowForm1}"
-                Content="Show form 1" />
-            <Button
-                Width="200"
-                Margin="0,5,0,5"
-                Command="{Binding ShowForm2}"
-                Content="Show form 2" />
-        </StackPanel>
-        <Rectangle
-            Fill="Black"
-            Opacity="0.6"
-            Visibility="{Binding DialogVisible}" />
-        <Border
-            Width="350"
-            Height="200"
-            BorderBrush="Black"
-            BorderThickness="2"
-            Visibility="{Binding DialogVisible}">
-            <StackPanel Background="White">
-                <local:Form1 DataContext="{Binding Form1}" Visibility="{Binding DataContext.Form1Visible, ElementName=page}" />
-                <local:Form2 DataContext="{Binding Form2}" Visibility="{Binding DataContext.Form2Visible, ElementName=page}" />
-            </StackPanel>
-        </Border>
-    </Grid>
+  <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+    <StackPanel Margin="0,15,0,0">
+      <Button
+        Width="200"
+        Margin="0,5,0,5"
+        Command="{Binding ShowForm1}"
+        Content="Show form 1" />
+      <Button
+        Width="200"
+        Margin="0,5,0,5"
+        Command="{Binding ShowForm2}"
+        Content="Show form 2" />
+    </StackPanel>
+    <Rectangle
+      Fill="Black"
+      Opacity="0.6"
+      Visibility="{Binding DialogVisible}" />
+    <Border
+      Width="350"
+      Height="200"
+      BorderBrush="Black"
+      BorderThickness="2"
+      Visibility="{Binding DialogVisible}">
+      <StackPanel Background="White">
+        <smo:Form1 DataContext="{Binding Form1}" Visibility="{Binding DataContext.Form1Visible, ElementName=page}" />
+        <smo:Form2 DataContext="{Binding Form2}" Visibility="{Binding DataContext.Form2Visible, ElementName=page}" />
+      </StackPanel>
+    </Border>
+  </Grid>
 </Page>
