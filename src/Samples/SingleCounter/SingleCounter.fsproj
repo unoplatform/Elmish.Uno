@@ -3,7 +3,7 @@
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Program.fs" />
+    <Compile Include="SingleCounter.fs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Elmish.Uno\Elmish.Uno.fsproj" />
