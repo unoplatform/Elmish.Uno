@@ -1,14 +1,14 @@
 ﻿using AppKit;
 
-namespace Samples.macOS
+namespace Samples
 {
-	static class MainClass
+	public partial class App
 	{
 		static void Main(string[] args)
 		{
 			NSApplication.Init();
 			NSApplication.SharedApplication.Delegate = new App();
-			NSApplication.Main(args);  
+			NSApplication.Main(args);
 		}
 	}
 }

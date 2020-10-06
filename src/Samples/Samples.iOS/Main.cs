@@ -1,8 +1,8 @@
 ﻿using UIKit;
 
-namespace Samples.iOS
+namespace Samples
 {
-	public class Application
+	public partial class App
 	{
 		// This is the main entry point of the application.
 		static void Main(string[] args)
