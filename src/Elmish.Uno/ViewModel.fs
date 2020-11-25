@@ -5,7 +5,9 @@ open System.Dynamic
 open System.Collections.Generic
 open System.Collections.ObjectModel
 open System.ComponentModel
+open System.Reflection
 open Elmish.Uno
+open Microsoft.FSharp.Reflection
 
 /// Represents all necessary data used in an active binding.
 type Binding<'model, 'msg> =
@@ -65,6 +67,10 @@ and [<AllowNullLiteral>] ViewModel<'model, 'msg>
 
   let propertyChanged = Event<PropertyChangedEventHandler, PropertyChangedEventArgs>()
   let errorsChanged = DelegateEvent<EventHandler<DataErrorsChangedEventArgs>>()
+  let modelTypeChanged = Event<EventHandler, EventArgs>()
+
+  static let multicastFiled = typeof<Event<EventHandler, EventArgs>>.GetField("multicast", BindingFlags.NonPublic ||| BindingFlags.Instance)
+  let getDelegateFromEvent (event : Event<EventHandler, EventArgs>) = multicastFiled.GetValue event :?> EventHandler
 
   /// Error messages keyed by property name.
   let errors = Dictionary<string, string>()
@@ -116,13 +122,13 @@ and [<AllowNullLiteral>] ViewModel<'model, 'msg>
         match getModel initialModel with
         | None -> SubModel (ref None, getModel, getBindings, toMsg)
         | Some m ->
-            let vm = this.Create(m, toMsg >> dispatch, getBindings (), config)
+            let vm = this.Create (m, toMsg >> dispatch, getBindings (), config)
             SubModel (ref <| Some vm, getModel, getBindings, toMsg)
     | SubModelSeqSpec (getModels, getId, getBindings, toMsg) ->
         let vms =
           getModels initialModel
           |> Seq.map (fun m ->
-               this.Create(m, (fun msg -> toMsg (getId m, msg) |> dispatch), getBindings (), config)
+               this.Create (m, (fun msg -> toMsg (getId m, msg) |> dispatch), getBindings (), config)
           )
           |> ObservableCollection
         SubModelSeq (vms, getModels, getId, getBindings, toMsg)
@@ -149,9 +155,74 @@ and [<AllowNullLiteral>] ViewModel<'model, 'msg>
         setInitialError spec.Name binding
       dict
 
+  /// Returns the command associated with a command binding if the command's
+  /// CanExecuteChanged should be triggered.
+  let getCmdIfCanExecChanged newModel binding =
+    match binding with
+    | OneWay _
+    | OneWayLazy _
+    | OneWaySeq _
+    | TwoWay _
+    | TwoWayValidate _
+    | TwoWayIfValid _
+    | SubModel _
+    | SubModelSeq _ ->
+        None
+    | Cmd (cmd, canExec) ->
+        if canExec newModel = canExec currentModel then None else Some cmd
+    | CmdIfValid (cmd, exec) ->
+        match exec currentModel, exec newModel with
+        | Ok _, Error _ | Error _, Ok _ -> Some cmd
+        | _ -> None
+    | ParamCmd cmd -> Some cmd
+
+  /// Updates the validation status for a binding.
+  let updateValidationStatus name binding =
+    match binding with
+    | TwoWayValidate (_, _, validate) ->
+        match validate currentModel with
+        | Ok _ -> removeError name
+        | Error err -> setError err name
+    | _ -> ()
+
+  abstract Create : initialModel: obj * dispatch: (obj -> unit) * bindingSpecs: BindingSpec<obj, obj> list * config: ElmConfig -> ViewModel<obj, obj>
+  default __.Create (initialModel, dispatch, bindingSpecs, config) =
+    ViewModel (initialModel, dispatch, bindingSpecs, config)
+  member __.Bindings = bindings.Value
+  member __.Dispatch = dispatch
+  [<CLIEvent>]
+  member val ModelTypeChanged = modelTypeChanged.Publish
+  member vm.CurrentModel
+    with get () : 'model = currentModel
+    and private set (newModel  : 'model) =
+        // TODO:
+        //if currentModel <> newModel then
+            let oldModel = currentModel
+            currentModel <- newModel
+            notifyPropertyChanged "CurrentModel"
+            let ``delegate`` = modelTypeChanged |> getDelegateFromEvent
+            match ``delegate`` with
+            | null -> ()
+            | _ when ``delegate``.GetInvocationList () |> (not << Seq.isEmpty) ->
+                let oldModelType = oldModel.GetType ()
+                let newModelType = newModel.GetType ()
+                match FSharpType.IsUnion newModelType, FSharpType.IsUnion newModelType with
+                | true, true ->
+                    let oldUnionCase, _ = FSharpValue.GetUnionFields(oldModel, oldModelType)
+                    let newUnionCase, _ = FSharpValue.GetUnionFields(newModel, newModelType)
+                    if oldUnionCase.DeclaringType <> newUnionCase.DeclaringType
+                    || oldUnionCase.Name <> newUnionCase.Name
+                    then modelTypeChanged.Trigger (vm, EventArgs ())
+                | false, false ->
+                    if oldModelType <> newModelType
+                    then modelTypeChanged.Trigger (vm, EventArgs ())
+                | _ -> modelTypeChanged.Trigger (vm, EventArgs ())
+            | _ -> ()
+        //else ()
+
   /// Updates the binding value (for relevant bindings) and returns a value
   /// indicating whether to trigger PropertyChanged for this binding
-  let updateValue newModel binding =
+  member private this.UpdateValue newModel binding =
     match binding with
     | OneWay get
     | TwoWay (get, _)
@@ -203,7 +274,7 @@ and [<AllowNullLiteral>] ViewModel<'model, 'msg>
             vm := None
             true
         | None, Some m ->
-            vm := Some <| ViewModel(m, toMsg >> dispatch, getBindings (), config)
+            vm := Some <| this.Create (m, toMsg >> dispatch, getBindings (), config)
             true
         | Some vm, Some m ->
             vm.UpdateModel(m)
@@ -224,7 +295,7 @@ and [<AllowNullLiteral>] ViewModel<'model, 'msg>
                 vms |> Seq.exists (fun vm -> getId m = getId vm.CurrentModel) |> not
           )
         for m in modelsToAdd do
-          vms.Add <| ViewModel(m, (fun msg -> toMsg (getId m, msg) |> dispatch), getBindings (), config)
+          vms.Add <| this.Create (m, (fun msg -> toMsg (getId m, msg) |> dispatch), getBindings (), config)
         // Reorder according to new model list
         for newIdx, newSubModel in newSubModels |> Seq.indexed do
           let oldIdx =
@@ -235,55 +306,18 @@ and [<AllowNullLiteral>] ViewModel<'model, 'msg>
           if oldIdx <> newIdx then vms.Move(oldIdx, newIdx)
         false
 
-  /// Returns the command associated with a command binding if the command's
-  /// CanExecuteChanged should be triggered.
-  let getCmdIfCanExecChanged newModel binding =
-    match binding with
-    | OneWay _
-    | OneWayLazy _
-    | OneWaySeq _
-    | TwoWay _
-    | TwoWayValidate _
-    | TwoWayIfValid _
-    | SubModel _
-    | SubModelSeq _ ->
-        None
-    | Cmd (cmd, canExec) ->
-        if canExec newModel = canExec currentModel then None else Some cmd
-    | CmdIfValid (cmd, exec) ->
-        match exec currentModel, exec newModel with
-        | Ok _, Error _ | Error _, Ok _ -> Some cmd
-        | _ -> None
-    | ParamCmd cmd -> Some cmd
-
-  /// Updates the validation status for a binding.
-  let updateValidationStatus name binding =
-    match binding with
-    | TwoWayValidate (_, _, validate) ->
-        match validate currentModel with
-        | Ok _ -> removeError name
-        | Error err -> setError err name
-    | _ -> ()
-
-  abstract Create : initialModel: obj * dispatch: (obj -> unit) * bindingSpecs: BindingSpec<obj, obj> list * config: ElmConfig -> ViewModel<obj, obj>
-  default __.Create (initialModel, dispatch, bindingSpecs, config) =
-    ViewModel(initialModel, dispatch, bindingSpecs, config)
-  member __.Bindings = bindings.Value
-  member __.Dispatch = dispatch
-  member __.CurrentModel : 'model = currentModel
-
   member this.UpdateModel (newModel: 'model) : unit =
     log "[VM] UpdateModel %s" <| newModel.GetType().FullName
     let propsToNotify =
       this.Bindings
       |> Seq.toList
-      |> List.filter (Kvp.value >> updateValue newModel)
+      |> List.filter (Kvp.value >> this.UpdateValue newModel)
       |> List.map Kvp.key
     let cmdsToNotify =
       this.Bindings
       |> Seq.toList
       |> List.choose (Kvp.value >> getCmdIfCanExecChanged newModel)
-    currentModel <- newModel
+    this.CurrentModel <- newModel
     propsToNotify |> List.iter notifyPropertyChanged
     cmdsToNotify |> List.iter raiseCanExecuteChanged
     for Kvp (name, binding) in this.Bindings do

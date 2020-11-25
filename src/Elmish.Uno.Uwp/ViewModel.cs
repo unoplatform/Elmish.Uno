@@ -1,20 +1,13 @@
-﻿using Elmish.Uno.Internal;
+﻿using System;
+using System.Collections.ObjectModel;
+using System.Diagnostics;
+using System.Windows.Input;
+
+using Elmish.Uno.Internal;
 
 using Microsoft.FSharp.Collections;
 using Microsoft.FSharp.Core;
 
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Diagnostics;
-using System.Dynamic;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Input;
-
-using Windows.Foundation;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Data;
@@ -59,7 +52,8 @@ namespace Elmish.Uno.Utilities
 
         private ICustomProperty GetProperty(string name)
         {
-            var binding = this.Bindings[name];
+            if (name == "CurrentModel") return new DynamicCustomProperty<object>(name, () => this.CurrentModel);
+            if (!this.Bindings.TryGetValue(name, out var binding)) Debugger.Break();
             switch (binding)
             {
                 case Binding<TModel, TMsg>.OneWay oneWay:
@@ -85,20 +79,18 @@ namespace Elmish.Uno.Utilities
                 case Binding<TModel, TMsg>.SubModelSeq subModelSeq:
                     return new DynamicCustomProperty<ObservableCollection<ViewModel<object, object>>>(name, () => GetMember(subModelSeq) as ObservableCollection<ViewModel<object, object>>);
                 default:
-                    throw new NotSupportedException();
+                    return null;
+                    //throw new NotSupportedException();
             }
         }
 
         public ICustomProperty GetCustomProperty(string name) => GetProperty(name);
 
-        public ICustomProperty GetIndexedProperty(string name, Type type)
-        {
-            return GetProperty(name);
-        }
+        public ICustomProperty GetIndexedProperty(string name, Type type) => GetProperty(name);
 
-        public string GetStringRepresentation() => typeof(TModel).ToString();
+        public string GetStringRepresentation() => CurrentModel.ToString();
 
-        public Type Type => typeof(ViewModel<TModel, TMsg>);
+        public Type Type => CurrentModel.GetType();
     }
 
     [RequireQualifiedAccess, CompilationMapping(SourceConstructFlags.Module)]
