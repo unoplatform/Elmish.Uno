@@ -70,7 +70,11 @@ and [<AllowNullLiteral>] ViewModel<'model, 'msg>
   let modelTypeChanged = Event<EventHandler, EventArgs>()
 
   static let multicastFiled = typeof<Event<EventHandler, EventArgs>>.GetField("multicast", BindingFlags.NonPublic ||| BindingFlags.Instance)
-  let getDelegateFromEvent (event : Event<EventHandler, EventArgs>) = multicastFiled.GetValue event :?> EventHandler
+  let getDelegateFromEvent (event : Event<EventHandler, EventArgs>) =
+    let ``delegate`` = multicastFiled.GetValue event
+    match ``delegate`` with
+    | :? EventHandler as handler -> handler
+    | _ -> null
 
   /// Error messages keyed by property name.
   let errors = Dictionary<string, string>()
