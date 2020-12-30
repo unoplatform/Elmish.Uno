@@ -6,6 +6,7 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{975CF05B-2D8A-4770-AFEE-9E5F2C1372DF}"
 	ProjectSection(SolutionItems) = preProject
 		..\.editorconfig = ..\.editorconfig
+		..\.gitignore = ..\.gitignore
 		..\global.json = ..\global.json
 		..\LICENSE.md = ..\LICENSE.md
 		..\nuget.config = ..\nuget.config
@@ -36,6 +37,14 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Samples.macOS", "Samples\Samples.macOS\Samples.macOS.csproj", "{CABFE678-8BBD-4203-8EE3-ADC2B9577CB0}"
 EndProject
 Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "Samples", "Samples\Samples\Samples.fsproj", "{7D5FB72D-FD5F-4247-A5FC-8CC989471B6A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{3363A419-C3B1-42C7-90F0-77AB79CD776A}"
+	ProjectSection(SolutionItems) = preProject
+		..\appveyor.yml = ..\appveyor.yml
+		..\build.fsx = ..\build.fsx
+		..\fake.cmd = ..\fake.cmd
+		..\fake.sh = ..\fake.sh
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
